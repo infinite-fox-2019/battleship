@@ -148,6 +148,7 @@ function battleshipA (){
         }
         return ocean
     }
+console.log(battleshipD())
 
 // function checker (){
 //     let bomb = process.argv.slice(2)
@@ -167,6 +168,6 @@ function battleshipA (){
     // console.log(alphabet)
     // return ocean
 
-}
+// }
 
- console.log(checker())
+//  console.log(checker())
