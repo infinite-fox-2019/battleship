@@ -45,12 +45,6 @@ const findKordinat = (board, ship) => {
   
   if (head + size > 10 || head + size < 1) return findKordinat(board, ship)
 
-  // for (let i = 0; i < kordinats.length; i++) {
-  //   if (board[i][head] !== ' ' || board[i][head + size] !== ' ') {
-  //     return findKordinat(board, ship)
-  //   }
-  // }
-
   if (!direction) {
     for (let i = head; i < head + size; i++) {
       kordinats.push([head, i])
@@ -80,8 +74,10 @@ console.log('k', findKordinat(board, listOfShips[2]))
 console.log('k', findKordinat(board, listOfShips[3]))
 
 const battleShip = () => {
-
+  for (let i = 0; i < listOfShips.length; i++) {
+    findKordinat(board, listOfShips[i])
+  }
 }
 
-console.log(battleShip())
+battleShip()
 
