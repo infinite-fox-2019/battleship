@@ -30,7 +30,7 @@ function game(table,kapal){
     let lengthS = kapal.lengthS
 
     let headOfShip = Math.ceil(Math.random()*9)
-    let column = Math.ceil(Math.random()*9)
+    let yumn = Math.ceil(Math.random()*9)
     let horiOrVerti = Math.round(Math.random())
     
     let coordinat = []
@@ -40,7 +40,7 @@ function game(table,kapal){
             if(i > 10) {
                 return game(table,kapal)
             } else {
-                coordinat.push([column,i])
+                coordinat.push([yumn,i])
             }
         }
     } else {
@@ -48,7 +48,7 @@ function game(table,kapal){
             if(i > 10) {
                 return game(table,kapal)
             } else {
-                coordinat.push([i,column])
+                coordinat.push([i,yumn])
             }    
         }
     }
@@ -67,18 +67,97 @@ game(tablesShip,kapal.aircraft)
 game(tablesShip,kapal.battleship)
 game(tablesShip,kapal.cruiser)
 game(tablesShip,kapal.destroyer)
-console.log(tablesShip);
+
+function tembakCapekKak(input){
+    let checking = input.split('')
+    let indexY = Number(checking[1])
+    let indexX = Infinity
+
+    switch(checking[0]){
+        case 'A' : {indexX = 1; break;}
+        case 'B' : {indexX = 2; break;}
+        case 'C' : {indexX = 3; break;}
+        case 'D' : {indexX = 4; break;}
+        case 'E' : {indexX = 5; break;}
+        case 'F' : {indexX = 6; break;}
+        case 'G' : {indexX = 7; break;}
+        case 'H' : {indexX = 8; break;}
+        case 'I' : {indexX = 9; break;}
+        case 'J' : {indexX = 10; break;}
+        default : return 'KOORDINAT SALAH'
+    }
+    return {x : indexX, y : indexY}
+}
+
+let countKena = {
+    a:0,
+    b:0,
+    c:0,
+    d:0,
+}
+let countMiss = 0;
+let countTotalTembak = 0;
 
 function tembakan(hayoTembak) {
     for(let i = 0 ; i < hayoTembak.length; i++){
-        let luncurkan = tembakCapekKak(hayoTembak[i])
+        let luncurkan = tembakCapekKak(hayoTembak[i].toUpperCase())
         // istirahat kak lelah besok livecode
+        let x = luncurkan.x;
+        let y = luncurkan.y;
+
+        switch(tablesShip[x][y]){
+            case 'a' : {tablesShip[x][y] = '🔥'
+                        countTotalTembak++
+                        countKena.a += 1
+                        ; break;}
+            case 'b' : {tablesShip[x][y] = '🔥'
+                        countTotalTembak++
+                        countKena.b += 1
+                        ; break;}
+            case 'c' : {tablesShip[x][y] = '🔥'
+                        countTotalTembak++
+                        countKena.c += 1
+                        ; break;}
+            case 'd' : {tablesShip[x][y] = '🔥'
+                        countTotalTembak++
+                        countKena.d +=1
+                        ; break;}
+            case ' ' : {tablesShip[x][y] = '/'
+                        countTotalTembak++
+                        countMiss++
+                        ; break;}
+        }
     }
 }
-let shot = []
+let shot = process.argv.slice(2)
+// console.log(shot);
 tembakan(shot)
 
-function tembakCapekKak(convert){
-    convert.split('')
+if (shot.length == 0) {
+    console.log('KIRIMKAN SERANGAN!');
+} else {
+    console.log(tablesShip);
+    console.log('\n');
+    for(var i in countKena){
+        if (i == 'a') {
+            if (countKena[i] !== 0) {
+                console.log(`kapal aircraft tertembak sebanyak ${countKena[i]}`);
+            }
+        } else  if (i == 'b') {
+            if (countKena[i] !== 0) {
+                console.log(`kapal battleship tertembak sebanyak ${countKena[i]}`);
+            }
+        } else  if (i == 'c') {
+            if (countKena[i] !== 0) {
+                console.log(`kapal cruiser tertembak sebanyak ${countKena[i]}`);
+            }
+        } else  if (i == 'd') {
+            if (countKena[i] !== 0) {
+                console.log(`kapal destroyer tertembak sebanyak ${countKena[i]}`);
+            }
+        }
+    }
 
+    console.log(`total serangan yang dikirimkan ${countTotalTembak}`);
+    console.log(`serangan yang gagal mengenai sasaran ${countMiss}`);
 }
