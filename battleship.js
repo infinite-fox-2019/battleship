@@ -11,65 +11,71 @@ function randomCoordinat () {
     return randomCoor;
 }
 
-// console.log(verticalOrHorizontal);
 
-function generateShips() {
-    // return drawBox();
+function generateShips1() {
     let borderBox = drawBox();
+    const simbol = ['@','?','^','&'];
     let koordinatBawah = [];
     let koordinatAtas = [];
     let xkoordinat = 0;
     let ykoordinat = 0;
-    // return borderBox; borderBox[2][2] = '#';
-    // for (let i = 0; i < shipsKeys.length; i++) {
+    for (let i = 0; i < 5; i++) {
         let verticalOrHorizontal = Math.floor(Math.random() *2);
         let x = randomCoordinat();
         let y = randomCoordinat();
-        borderBox[3][3] = '#';
-        borderBox[5][5] = '#';
-        borderBox[7][8] = '#';
-        borderBox[2][4] = '#';
-        borderBox[1][7] = '#';
-        borderBox[8][2] = '#';
-        borderBox[9][6] = '#';
-        borderBox[10][7] = '#';
-        borderBox[3][9] = '#';
         if (borderBox[x][y] === ' ') {
             if (verticalOrHorizontal === 1) {
                 xkoordinat = x;
                 ykoordinat = y;
-                borderBox[x][y] = '@';
                 let isFind = false;
-                for (let j = x+1; j <= x + ships[shipsKeys[0]]; j++) {
-                    if (borderBox[j][y] === ' ') {
-                        isFind = true;
-                        koordinatBawah.push(j);
-                    } else {
-                        console.log('astaganaga');
-                        break;
+                if (x+ships[shipsKeys[i]] <= 10) {
+                    for (let j = x+1; j <= x + ships[shipsKeys[i]]; j++) {
+                        if (borderBox[j][y] === undefined) {
+                            generateShips1();
+                        }
+                        if (borderBox[j][y] === ' ') {
+                            isFind = true;
+                            koordinatBawah.push(j);
+                        } else {
+                            isFind = false;
+                            break;
+                        }
+                    }
+                    if (isFind === true) {
+                        
+                        for (let k = 0; k < koordinatBawah.length; k++) {
+                            borderBox[koordinatBawah[k]][y] = simbol[i];
+                        }
                     }
                 }
-                // for (let j = ships[shipsKeys[i]]; j > 0 ; j--) {
-                //     if (borderBox[j][y] === ' ') {
-                //         isFind = true;
-                //         koordinatAtas.push(j);
-
-                //     }
-                // }
-                // if (isFind === true) {
-
-                // }
-            }
-            
+            } else {
+                xkoordinat = x;
+                ykoordinat = y;
+                let isFind = false;
+                if (x+ships[shipsKeys[i]] <= 10) {
+                    for (let j = y+1; j <= y + ships[shipsKeys[i]]; j++) {
+                        if (borderBox[x][j] === undefined) {
+                            generateShips1();
+                        }
+                        if (borderBox[x][j] === ' ') {
+                            isFind = true;
+                            koordinatBawah.push(j);
+                        } else {
+                            isFind = false;
+                            break;
+                        }
+                    }
+                    if (isFind === true) {
+                        
+                        for (let k = 0; k < koordinatBawah.length; k++) {
+                            borderBox[x][koordinatBawah[k]] = simbol[i];
+                        }
+                    }
+                }
+            }   
         }
-    // }
-    // console.log(ships[shipsKeys[0]);
-    console.log(`atas ${koordinatAtas}`);
-    console.log(`bawah ${koordinatBawah}`);
-    console.log(xkoordinat);
-    console.log(ykoordinat);
-    
-    
+    }
+  
     return borderBox;
 
 }
@@ -94,6 +100,6 @@ function drawBox () {
     }
     return borderBox;
 }
-console.log(generateShips());
+console.log(generateShips1());
 
 
