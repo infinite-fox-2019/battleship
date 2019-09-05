@@ -5,11 +5,15 @@ const ships = [
     {name: 'Destroyer', size: 2},
 ]
 let shipCoordinates = [];
+let hitCoordinates = [];
+let missCoordinates = [];
 
-generateRandomEnemyShip();
+generateEnemyShip();
+fireEnemyShip();
 printBoard();
+printReport();
 
-function generateRandomEnemyShip() {
+function generateEnemyShip() {
     for(let i = 0; i < ships.length; i++) {
         let currentShip = ships[i];
         let validPosition = false;
@@ -31,7 +35,21 @@ function generateRandomEnemyShip() {
             }
             validPosition = !arrayHaveSameElement(shipCoordinates, currentShipCoordinate);
         }
-        arrayAdd(shipCoordinates, currentShipCoordinate);
+        arrayJoin(shipCoordinates, currentShipCoordinate);
+    }
+}
+
+function fireEnemyShip() {
+    let ammo = getRandomNumberInclusive(4, 10);
+
+    for(let i = 0; i < ammo; i++) {
+        let x = getRandomNumberInclusive(1, 10);
+        let y = getRandomNumberInclusive(1, 10);
+        if(arrayHaveSameElement(shipCoordinates, [[x, y]])) {
+            hitCoordinates.push([x, y]);
+        } else {
+            missCoordinates.push([x, y]);
+        }
     }
 }
 
@@ -50,17 +68,28 @@ function printBoard() {
         }
     }
     for(let i = 0; i < shipCoordinates.length; i++) {
-        board[shipCoordinates[i][0]][shipCoordinates[i][1]] = 'X';
+        board[shipCoordinates[i][0]][shipCoordinates[i][1]] = '#';
+    }
+    for(let i = 0; i < hitCoordinates.length; i++) {
+        board[hitCoordinates[i][0]][hitCoordinates[i][1]] = 'X';
+    }
+    for(let i = 0; i < missCoordinates.length; i++) {
+        board[missCoordinates[i][0]][missCoordinates[i][1]] = 'O';
     }
     
-    console.log(board)
+    console.log(board);
+}
+
+function printReport() {
+    console.log(`HIT: ${hitCoordinates.length}`);
+    console.log(`MISS: ${missCoordinates.length}`);
 }
 
 function getRandomNumberInclusive(min, max) {
   return Math.floor(Math.random() * Math.floor(max + 1 - min) + min);
 }
 
-function arrayAdd(arr1, arr2) {
+function arrayJoin(arr1, arr2) {
     for(i = 0; i < arr2.length; i++) {
         arr1.push(arr2[i]);
     }
