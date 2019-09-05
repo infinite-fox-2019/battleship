@@ -64,12 +64,35 @@ function battleship (arrayParameter) {
             }
         }
     }
-    
-    //tes bom, jika terkena bom * jadi x 
-    for (let i = 0; i < board.length; i++) {
-
+    //let jumlahPerahuHancur = 0;
+    let currentPerahuHancur = [];
+    //tes bom, jika terkena bom angka/kapal jadi x 
+    for (let i = 0; i < tukangBom.length; i++) {
+        let currentPosisiPerahuHancur = true;
+        let bomYgTurun = tukangBom[i];
+        let jenisPerahu = '';
+        if (board[bomYgTurun[0]][bomYgTurun[1]] !== ' ') {
+            jenisPerahu = board[bomYgTurun[0]][bomYgTurun[1]];
+            for (let l = 0; l < currentPerahuHancur.length; l++) {
+                if (bomYgTurun[0] === currentPerahuHancur[l][0] && bomYgTurun[1] === currentPerahuHancur[l][1]) {
+                    currentPosisiPerahuHancur = false
+                }
+            }
+        }
+        for (let j = 1; j < board.length; j++) {
+            for (let k = 1; k < board[j].length; k++) {
+                if (board[j][k] === jenisPerahu) {
+                    board[j][k] = 'x'
+                    currentPerahuHancur.push([j, k]);
+                }
+            }
+        }
+        if (currentPosisiPerahuHancur === false){
+            jumlahPerahuHancur++;
+        }
     }
-    return board;
+    console.log(board);
+    return `Perahu yang hancur bertanda 'x', yg tidak hancur bertanda 'angka'`;
 };
 
 function randomRowColForShip () {
