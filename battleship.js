@@ -1,4 +1,6 @@
 // Your code here
+//full dinamis
+// tanda X satu bagian kapal hancur , angka sesuai list kapal
 function printBoard () {
     let alphabet = ' ABCDEFGHIJ';
     let board = [];
