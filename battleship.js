@@ -66,7 +66,7 @@ function battleship (arrayParameter) {
             }
         }
     }
-    //let jumlahPerahuHancur = 0;
+    let jumlahPerahuHancur = 0;
     let currentPerahuHancur = [];
     //tes bom, jika terkena bom angka/kapal jadi x 
     for (let i = 0; i < tukangBom.length; i++) {
